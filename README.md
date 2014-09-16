@@ -14,12 +14,20 @@ API
 ```objc
 @interface BookRespository : KICoreDataRespository
 
+# pragma mark - KICoreDataRepository Overrides
+
 + (Class)modelClass {
     return [Book class]; // Assume that `Book` is `NSManagedObject` class.
 }
 
 + (NSString *)primaryKeyKeyPath {
     return @"bookID";
+}
+
+# pragma mark - Scope
+
+- (KIScope *)sosekiBooks {
+    return [KIScope scopeWithPredicate:[NSPredicateWithFormat:@"title == %@", @"Soseki Natsume"]]
 }
 
 @end
@@ -66,8 +74,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title == %@ AND dele
 
 ### Methods
 
-- `- insert`
-- `- save` (`- commit` as alias)
+- `- insert:`
+- `- insertAndCommit:` - insert & commit
+- `- remove:`
+- `- removeAndCommit:` - remove & commit
+- `- commit`
 - `- find:`
 - `- find:by:`
 - `- findAll:by:`
@@ -80,6 +91,10 @@ Concerns
 ---
 
 - Compile time KeyPath checking?
+- Scope support
+- Default scope support
+- Query building
+- Paranoid support
 
 Links
 ---
